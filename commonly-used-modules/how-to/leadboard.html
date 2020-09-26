@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+<title>Infinite scroll leaderboard</title>
+
+<head>
+    <script>
+    const URL = "http://dss.p2p.local/assets/ranks.json",
+        addItemLength = 10;
+    let responseDataArr = [];
+    let idx = 0;
+    
+    document.addEventListener("DOMContentLoaded", () => {
+        const options = { root: null, rootMargins: "0px", threshold: 0.5 };
+        const observer = new IntersectionObserver(handleIntersect, options);
+        observer.observe(document.querySelector("#leaderboard"));
+        //an initial load of some data
+        getDataFromServer();
+    });
+
+    function handleIntersect(entries) {
+        if (entries[0].isIntersecting) {
+            addData(responseDataArr);
+        }
+    }
+
+    function addData(data) {
+        const table = document.querySelector("#leaderboard"),
+              rankArr = data;
+
+        rankArr.slice(idx, addItemLength).forEach((rank, i) => {
+            let row = document.createElement("tr");
+            let colRank = document.createElement("td"),
+                colName = document.createElement("td"),
+                colScore = document.createElement("td"),
+                colId = document.createElement("td");
+
+            colRank.textContent = i + 1;
+            colName.textContent = rank.name;
+            colScore.textContent = rank.score;
+            colId.textContent = rank.id;
+
+            row.appendChild(colRank);
+            row.appendChild(colName);
+            row.appendChild(colScore);
+            row.appendChild(colId);
+            table.appendChild(row);
+        });
+        idx += addItemLength;
+    }
+
+
+    function getDataFromServer() {
+        console.log("fetch some JSON data");
+        fetch(URL).then(response => response.json()).then(data => {
+            responseDataArr = data.rank_data.sort((a, b) => a.score - b.score);
+            addData(responseDataArr);
+        });
+    }
+
+    
+    </script>
+    <style>
+    </style>
+</head>
+
+<body>
+    <header>
+    </header>
+    <div class="content">
+        <table id="leaderboard">
+            <tr>
+                <th>Rank</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Score</th>
+            </tr>
+        </table>
+    </div>
+    <footer>
+    </footer>
+</body>
+
+</html>

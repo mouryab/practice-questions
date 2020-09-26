@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+
+	<head>
+		<title>Timer</title>
+	</head>
+
+
+	<body>
+		<div id='seconds'></div>
+				<script>
+let counter = document.querySelector('#seconds');
+let currentTime = new Date();
+counter.textContent = currentTime.getSeconds();
+ 
+setInterval(function() {
+  let sec = parseInt(counter.textContent);
+	if(sec < 59) { 
+		sec++;
+		counter.textContent = (sec < 10) ? '0' + sec : sec;
+	}
+  else counter.textContent = '00';
+}, 1000) ;
+		</script>
+	</body>
+</html>

@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>Percentage Color Adder</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<style>
+		#preview-panel {
+			width: 30vw;
+			height: 20vw;
+		}
+
+		#color-options {
+			width: 1vw;
+			height: 1vw;
+			display: inline;
+			
+		}
+		#color-options button{
+			color: #9f7777;
+		}
+
+	</style>
+
+	<script>
+		window.onload = function() {
+			const colorOptions = document.querySelector('#color-options'),
+				   previewPanel = document.querySelector('#preview-panel');
+
+			for(const el of colorOptions.children)	{
+				el.style.backgroundColor = el.getAttribute('data-color');
+			}   
+
+			colorOptions.addEventListener('click', function(event){
+				const el = event.target,
+					  newColorArr = parseColor(el.getAttribute('data-color'));
+
+				setColor(newColorArr);
+
+				event.stopPropagation();
+			});
+
+			function setColor(colorArr) {
+					const currentColor = parseColor(window.getComputedStyle(previewPanel).getPropertyValue('background-color'));
+					let comboColor = [];
+					for(let i = 0; i < colorArr.length; i++) {
+						comboColor.push(0.1 * colorArr[i] + 0.9 * currentColor[i]); 
+					}
+					previewPanel.style.backgroundColor = 'rgb(' + comboColor.join(',') + ')';
+			}
+
+			function parseColor(rgbStr) {
+					let arr = rgbStr.replace('rgb(', '').replace('rgba(', '').replace(')', '').replace('/ /g', '').split(',');
+					if(arr.length > 3) arr.pop();
+					return arr;
+			}	
+		}
+	</script>
+</head>
+<body>
+
+	<main>
+		<section>
+			<h2> Preview panel </h2>
+			<div id='preview-panel'></div>
+
+		</section>
+		<section>
+			<h3>Add color</h3>
+			<div id='color-options'>
+				<button data-color="rgba(0,0,0,1)">Black</button>
+				<button data-color="rgba(255,255,255,1)">White</button>
+				<button data-color="rgba(255,0,0,1)">Red</button>
+				<button data-color="rgba(0,255,0,1)">Lime</button>
+				<button data-color="rgba(0,0,255,1)">Blue</button>
+				<button data-color="rgba(255,255,0,1)">Yellow</button>
+				<button data-color="rgba(0,255,255,1)">Cyan</button>
+				<button data-color="rgba(255,0,255,1)">Magenta</button>
+			</div>	
+		</section>
+	</main>
+</body>
+</html>

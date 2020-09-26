@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+<title>Counter</title>
+<script>
+window.onload = function() {
+
+
+const incrementCounterButton =  document.querySelector('#incrementCounter'),
+	  decrementCounterButton = document.querySelector('#decrementCounter');
+	  resetCounterButton = document.querySelector('#resetCounter'), 
+	  counterEl = document.querySelector('#counterValue');
+
+			 incrementCounterButton.addEventListener('click', (ev) => {
+			    let countVal = 	parseInt(counterEl.innerText);
+			 	countVal++;
+			 	counterEl.innerHTML = countVal;
+			 	ev.stopPropagation();
+			 });
+	
+	 		decrementCounterButton.addEventListener('click', (ev) => {
+				let countVal = 	parseInt(counterEl.innerText);
+	 			countVal--;
+			 	counterEl.innerHTML = countVal;
+			   ev.stopPropagation();
+			 });
+
+			resetCounterButton.addEventListener('click', (ev) => {
+			 	counterEl.innerHTML = 0;
+			 	ev.stopPropagation();
+			 });
+
+
+}
+
+</script>
+<style>
+
+	h1 {
+		font-size:40px;
+		color: green;
+	}
+
+	#controls {
+	 display: inline;
+	}
+
+
+</style>
+</head>
+<body>
+
+<div id="container">
+	
+	<h1 id='counterValue'>0</div>
+
+	<div id="controls">
+		<button id='decrementCounter' class='counterButton'>Decrement Counter</button>
+		<button id='resetCounter' class='counterButton'>Reset Counter</button>
+		<button id='incrementCounter' class='counterButton'>Increment Counter</button>
+	</div>
+
+</div>
+
+
+</body>
+</html>
